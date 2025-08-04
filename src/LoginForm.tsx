@@ -72,6 +72,7 @@ export const LoginForm = () => {
           setPassword(event.target.value);
           setPasswordError('');
         }} />
+        {passwordError && <p className='error'>{passwordError}</p>}
       </div>
       <button type="submit">Login</button>
     </form>
