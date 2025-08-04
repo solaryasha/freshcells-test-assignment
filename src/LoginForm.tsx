@@ -10,7 +10,7 @@ export const LoginForm = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('')
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!email) {
@@ -27,6 +27,31 @@ export const LoginForm = () => {
       setPasswordError('Password cannot be empty, please provide the passwrod')
       return;
     }
+    try {
+      const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          query: `
+            mutation login {
+            login(input:{
+              identifier: "${email}"
+              password: "${password}"
+            }) { jwt }
+          }`
+        })
+      });
+  
+      const { data } = await request.json();
+      localStorage.setItem('token', data.login.jwt);
+
+    } finally {
+      setEmail('');
+      setPassword('');
+    }
+
   };
 
 
