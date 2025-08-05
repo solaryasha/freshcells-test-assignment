@@ -1,9 +1,10 @@
+import { Button, Input } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 export const AccountPage = () => {
-  const { userId }= useParams();
+  const { userId } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [firstName, setFirstName] = useState(null);
@@ -16,28 +17,25 @@ export const AccountPage = () => {
       return;
     }
 
-    try {
-      const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            query: `{
+    const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        query: `{
               user(id: ${userId}) {
                 firstName
                 lastName
               }}`
-          })
-        });
-  
-        const { data } = await request.json();
-        
-        setFirstName(data.user.firstName)
-        setLastName(data.user.lastName);
+      })
+    });
 
-    } finally {}
+    const { data } = await request.json();
+
+    setFirstName(data.user.firstName)
+    setLastName(data.user.lastName);
 
   }, [userId])
 
@@ -51,10 +49,10 @@ export const AccountPage = () => {
   }
 
   return lastName && firstName && (
-    <form>
-      <p>{t('first-name')} {firstName}</p>
-      <p>{t('last-name')} {lastName}</p>
-      <button onClick={logOut}>{t('logout-button-text')}</button>
+    <form className='page'>
+      <Input defaultValue={firstName} disabled className='mb-16'/>
+      <Input defaultValue={lastName} disabled className='mb-16' />
+      <Button variant="outlined" onClick={logOut}>{t('logout-button-text')}</Button>
     </form>
   )
 }

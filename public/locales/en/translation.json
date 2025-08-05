@@ -7,5 +7,6 @@
   "email-label": "Email:",
   "password-label": "Password:",
   "first-name": "First name:",
-  "last-name": "Last name:"
+  "last-name": "Last name:",
+  "invalid-email-password": "The email or password you entered is incorrect. Please check and try again."
 }

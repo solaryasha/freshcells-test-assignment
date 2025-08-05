@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import LangIcon from "./LangIcon";
 import { supportedLngs } from "../config";
 import './LocalSwitcher.css';
+import { MenuItem, Select } from '@mui/material';
 
 export default function LocaleSwitcher() {
   const { i18n } = useTranslation();
@@ -11,16 +12,17 @@ export default function LocaleSwitcher() {
       <div className="locale-select">
         <LangIcon />
 
-        <select
+        <Select
           value={i18n.resolvedLanguage}
           onChange={(e) => i18n.changeLanguage(e.target.value)}
+          size='small'
         >
           {Object.entries(supportedLngs).map(([code, name]) => (
-            <option value={code} key={code}>
+            <MenuItem value={code} key={code}>
               {name}
-            </option>
+            </MenuItem>
           ))}
-        </select>
+        </Select>
       </div>
     </div>
   );

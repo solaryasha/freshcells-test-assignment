@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  margin: auto;
+  max-width: 350px;
+}
+
+
+.mb-16 { margin-bottom: 16px;}
