@@ -8,5 +8,6 @@
   "password-label": "Password:",
   "first-name": "First name:",
   "last-name": "Last name:",
-  "invalid-email-password": "The email or password you entered is incorrect. Please check and try again."
+  "invalid-email-password": "The email or password you entered is incorrect. Please check and try again.",
+  "something-went-wrong": "Something went wrong on our side. We apologize for the inconvenience"
 }

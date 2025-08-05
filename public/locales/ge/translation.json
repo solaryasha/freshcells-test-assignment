@@ -8,5 +8,6 @@
   "password-label": "Passwort:",
   "first-name": "Vorname:",
   "last-name": "Nachname:",
-  "invalid-email-password": "Die eingegebene E-Mail-Adresse oder das Passwort ist falsch. Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut."
+  "invalid-email-password": "Die eingegebene E-Mail-Adresse oder das Passwort ist falsch. Bitte überprüfen Sie Ihre Eingaben und versuchen Sie es erneut.",
+  "something-went-wrong": "Etwas ist auf unserer Seite schiefgelaufen. Wir entschuldigen uns für die Unannehmlichkeiten."
 }

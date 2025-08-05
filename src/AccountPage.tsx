@@ -17,6 +17,8 @@ export const AccountPage = () => {
       return;
     }
 
+    throw Error('Error');
+
     const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
       method: 'POST',
       headers: {
@@ -50,8 +52,8 @@ export const AccountPage = () => {
 
   return lastName && firstName && (
     <form className='page'>
-      <Input defaultValue={firstName} disabled className='mb-16'/>
-      <Input defaultValue={lastName} disabled className='mb-16' />
+      <Input defaultValue={firstName} disabled className='mb-16' disableUnderline/>
+      <Input defaultValue={lastName} disabled className='mb-16' disableUnderline />
       <Button variant="outlined" onClick={logOut}>{t('logout-button-text')}</Button>
     </form>
   )
