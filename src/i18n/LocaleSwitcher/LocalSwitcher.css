@@ -1,0 +1,14 @@
+.locale-switcher {
+  position: fixed;
+  right: 16px;
+}
+
+.locale-select {
+  display: flex;
+  gap: 4px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
