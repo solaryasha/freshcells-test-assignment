@@ -3,21 +3,17 @@
  */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { LoginForm } from './LoginForm'; // Assuming LoginForm.tsx is in the same directory
+import { LoginForm } from './LoginForm';
 
 
-
-// Mock react-router-dom's useNavigate
 const mockNavigate = jest.fn();
 jest.mock('react-router', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-// Mock react-i18next's useTranslation
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => {
-      // Provide mock translations for the keys used in the component
       switch (key) {
         case 'email-label': return 'Email';
         case 'password-label': return 'Password';
@@ -33,20 +29,16 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-// Mock fetch API
 beforeAll(() => {
   jest.spyOn(global, 'fetch');
 });
 
 beforeEach(() => {
-  // Clear all mocks before each test
   jest.clearAllMocks();
-  // Clear localStorage before each test
   localStorage.clear();
 });
 
 afterAll(() => {
-  // Restore original fetch after all tests
   jest.restoreAllMocks();
 });
 
