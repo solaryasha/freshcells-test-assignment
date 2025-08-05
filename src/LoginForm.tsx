@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './LoginForm.css';
+import { useNavigate } from 'react-router';
 
 const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -9,6 +10,7 @@ export const LoginForm = () => {
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('')
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -39,14 +41,19 @@ export const LoginForm = () => {
             login(input:{
               identifier: "${email}"
               password: "${password}"
-            }) { jwt }
+            }) { 
+              jwt 
+              user { id } 
+            }
           }`
         })
       });
   
       const { data } = await request.json();
       localStorage.setItem('token', data.login.jwt);
+      const userId = data.login.user.id;
 
+      navigate(userId);
     } finally {
       setEmail('');
       setPassword('');
