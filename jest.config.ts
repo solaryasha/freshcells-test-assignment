@@ -17,9 +17,6 @@ const config: Config = {
     }],
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
-  globals: {
-    fetch: global.fetch,
-  }
 };
 
 export default config;

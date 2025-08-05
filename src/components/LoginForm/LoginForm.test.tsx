@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { LoginForm } from './LoginForm';
+import '@testing-library/jest-dom';
 
 
 const mockNavigate = jest.fn();
@@ -29,20 +29,18 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-beforeAll(() => {
-  jest.spyOn(global, 'fetch');
-});
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  localStorage.clear();
-});
-
-afterAll(() => {
-  jest.restoreAllMocks();
-});
 
 describe('LoginForm', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn();
+    localStorage.clear();
+  });
+  
+   afterEach(() => {
+    jest.clearAllMocks();
+  });
+  
   test('renders the login form with email, password, and login button', () => {
     render(<LoginForm />);
 

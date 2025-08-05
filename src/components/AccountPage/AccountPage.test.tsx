@@ -5,6 +5,7 @@ const mockUseNavigate = jest.fn();
  */
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { AccountPage } from './AccountPage';
+import '@testing-library/jest-dom';
 
 jest.mock('react-router', () => ({
   useParams: userParamsMock,
@@ -18,29 +19,18 @@ jest.mock('react-i18next', () => ({
 }));
 
 
-
-beforeAll(() => {
-  jest.spyOn(global, 'fetch');
-});
-
 describe('AccountPage', () => {
 
   beforeEach(() => {
+    global.fetch = jest.fn();
     localStorage.clear();
-    jest.clearAllMocks();
     userParamsMock.mockReturnValue({ userId: '123' })
     mockUseNavigate.mockReturnValue(jest.fn());
-    // // Reset and configure useParams mock
-    // mockUseParams = require('react-router').useParams;
-    // mockUseParams.mockReturnValue({ userId: '123' }); // Default userId for tests
-
-    // // Reset and configure useNavigate mock
-    // mockUseNavigate = require('react-router').useNavigate;
-    // mockUseNavigate.mockReturnValue(jest.fn()); // Return a new mock function for navigate
   });
 
-  afterAll(() => {
-    jest.restoreAllMocks();
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   test('should render user data after successful fetch', async () => {
