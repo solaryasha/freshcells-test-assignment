@@ -10,6 +10,12 @@ export const AccountPage = () => {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
 
+  const [error, setError] = useState<Error| null>(null);
+
+  if (error) {
+    throw error;
+  }
+
   const setUserInfo = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -17,27 +23,29 @@ export const AccountPage = () => {
       return;
     }
 
-    throw Error('Error');
-
-    const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        query: `{
-              user(id: ${userId}) {
-                firstName
-                lastName
-              }}`
-      })
-    });
-
-    const { data } = await request.json();
-
-    setFirstName(data.user.firstName)
-    setLastName(data.user.lastName);
+    try {
+      const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          query: `{
+                user(id: ${userId}) {
+                  firstName
+                  lastName
+                }}`
+        })
+      });
+  
+      const { data } = await request.json();
+  
+      setFirstName(data.user.firstName)
+      setLastName(data.user.lastName);
+    } catch (error) {
+      setError(error as Error);
+    }
 
   }, [userId])
 
