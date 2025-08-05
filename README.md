@@ -1,69 +1,84 @@
-# React + TypeScript + Vite
+# Login & Account Details Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project implements a simple web application with two core screens: a **Login Screen** and an **Account Details Screen**. It demonstrates user authentication, data fetching via GraphQL, and incorporates several best practices for a robust and user-friendly experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+* **Login Screen:**
+    * Input fields for **Email** and **Password**.
+    * **Client-side validation** for email format (required) and password (required).
+    * Triggers a **GraphQL mutation** with provided credentials upon successful validation.
+    * Handles **backend errors** gracefully (e.g., incorrect credentials).
+    * Navigates to the Account Screen upon successful login.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* **Account Screen:**
+    * Displays the logged-in user's **First Name** and **Last Name** in non-editable fields.
+    * Fetches user data using a **GraphQL query**.
+    * **Logout button** that clears user session and returns to the Login Screen.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Preferences Implemented
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The following "plus" preferences were integrated into the application:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 1. TypeScript
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The entire application is developed using **TypeScript**, providing static type checking, improved code readability, and better maintainability. This helps catch errors early in the development cycle and enhances the overall developer experience.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 2. SPA Navigation
+
+The application utilizes **Single Page Application (SPA) navigation** with the React Router v7. Transitions between the Login and Account screens are smooth and do not require full page reloads, providing a faster and more fluid user experience. This is achieved using a routing mechanism that dynamically renders components based on the application's state or URL.
+
+### 3. Localization
+
+The application includes basic **localization support** with the React i18n package. Text elements (e.g., button labels, error messages) are managed through a localization framework, allowing for easy translation into multiple languages. While only English might be present by default, the architecture supports adding more locales effortlessly.
+
+### 4. Uncaught Error Handling
+
+A global **uncaught error handling mechanism** is in place. This ensures that unexpected runtime errors are gracefully caught, logged, and potentially presented to the user in a user-friendly manner, preventing the application from crashing silently.
+
+### 5. UX Feedback (Loading States, Error Notifications)
+
+Comprehensive UX feedback is provided to the user:
+
+* **Loading States:** Visual indicators (e.g., spinners, disabled buttons) are displayed during asynchronous operations (like login or data fetching) to inform the user that an action is in progress.
+* **Error Notifications:** Clear, non-intrusive error messages are displayed to the user for both client-side validation failures and backend API errors (e.g., "Invalid email format," "Incorrect credentials," "Network error"). These notifications are typically transient and user-friendly.
+
+### 6. Clean UI
+
+The user interface is designed with Material UI. A minimalist aesthetic, consistent spacing, legible typography, and intuitive layouts contribute to a pleasant user experience. The design prioritizes usability and clarity over excessive visual complexity.
+
+### 7. Unit Tests
+
+The codebase includes **unit tests** for critical components and functionalities. These tests ensure the reliability of the validation logic, GraphQL interactions (mocked), and component rendering, contributing to a stable and maintainable application.
+
+---
+
+## Getting Started
+
+To set up and run this project locally, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [repository-url]
+    cd [project-directory]
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Configure GraphQL Endpoint:**
+    * Ensure your GraphQL endpoint is correctly configured in the application's environment variables or configuration file.
+
+4.  **Run the application:**
+    ```bash
+    npm run dev
+    ```
+    The application should now be running on `http://localhost:5173` (or a similar port).
+
+--
