@@ -83,7 +83,7 @@ export const LoginForm = () => {
       navigate(userId);
     } else {
       const errorCode = getErrorCode(errors);
-      setError({ email: { status: 'error', message: t(errorCode) }, password: { status: 'error', message: ''}});
+      setError({ email: { status: 'error', message: t(errorCode) }, password: { status: 'error', message: '' } });
       setLoading(false);
     }
   };
@@ -124,13 +124,15 @@ export const LoginForm = () => {
         />
       </div>
       {<Collapse in={hasErrors}>
-          <Alert severity="error" className='form-field'>
-            {error.email.message}
-            {error.password.message}
-          </Alert>
-        </Collapse>
-        }
-      <Button variant="outlined" type='submit' loading={loading}>{t('login-button-text')}</Button>
+        <Alert severity="error" className='form-field'>
+          {error.email.message}
+          {error.password.message}
+        </Alert>
+      </Collapse>
+      }
+      <Button variant="outlined" type='submit' loading={loading}>
+        {t('login-button-text')}
+      </Button>
     </form>
   )
 }
