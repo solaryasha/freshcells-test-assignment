@@ -1,0 +1,11 @@
+{
+  "empty-email-error-text": "E-Mail darf nicht leer sein. Bitte geben Sie die E-Mail an.",
+  "email-not-matching-error-text": "Ungültige E-Mail-Adresse. Bitte überprüfen Sie Ihre Eingabe.",
+  "empty-password-error-text": "Passwort darf nicht leer sein. Bitte geben Sie das Passwort ein.",
+  "login-button-text": "Anmelden",
+  "logout-button-text": "Abmelden",
+  "email-label": "E-Mail:",
+  "password-label": "Passwort:",
+  "first-name": "Vorname:",
+  "last-name": "Nachname:"
+}

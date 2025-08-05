@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './LoginForm.css';
 import { useNavigate } from 'react-router';
+import { useTranslation } from "react-i18next";
 
 const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -11,22 +12,23 @@ export const LoginForm = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('')
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!email) {
-      setEmailError('Email cannot be empty, please provide the email');
+      setEmailError(t("empty-email-error-text"));
       return;
     }
 
     if (!emailRegExp.test(email)) {
-      setEmailError('Value that you provided doesn\'t match email pattern. Make sure you provided an email');
+      setEmailError(t("email-not-matching-error-text"));
       return;
     }
 
     if (!password) {
-      setPasswordError('Password cannot be empty, please provide the passwrod')
+      setPasswordError(t('empty-password-error-text'))
       return;
     }
     try {
@@ -58,14 +60,13 @@ export const LoginForm = () => {
       setEmail('');
       setPassword('');
     }
-
   };
 
 
   return (
     <form className='form-page' onSubmit={handleSubmit}>
       <div className='form-field'>
-        <label htmlFor='email-input'>Email: </label>
+        <label htmlFor='email-input'>{t('email-label')}</label>
         <input type="email" name="email-input" id="email-input" value={email} onChange={(event) => {
           setEmail(event.target.value)
           setEmailError('');
@@ -74,14 +75,14 @@ export const LoginForm = () => {
         {emailError && <p className='error'>{emailError}</p>}
       </div>
       <div className='form-field'>
-        <label htmlFor='password-input'>Password: </label>
+        <label htmlFor='password-input'>{t('password-label')}</label>
         <input type='password' name="password-input" id="password-input" value={password} onChange={(event) => {
           setPassword(event.target.value);
           setPasswordError('');
         }} />
         {passwordError && <p className='error'>{passwordError}</p>}
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">{t('login-button-text')}</button>
     </form>
   )
 }

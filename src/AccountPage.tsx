@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 export const AccountPage = () => {
   const { userId }= useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
 
@@ -50,9 +52,9 @@ export const AccountPage = () => {
 
   return lastName && firstName && (
     <form>
-      <p>First name: {firstName}</p>
-      <p>Last name: {lastName}</p>
-      <button onClick={logOut}>Logout</button>
+      <p>{t('first-name')} {firstName}</p>
+      <p>{t('last-name')} {lastName}</p>
+      <button onClick={logOut}>{t('logout-button-text')}</button>
     </form>
   )
 }

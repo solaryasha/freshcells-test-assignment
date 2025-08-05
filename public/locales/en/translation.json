@@ -1,0 +1,11 @@
+{
+  "empty-email-error-text": "Email cannot be empty, please provide the email",
+  "email-not-matching-error-text": "Value that you provided doesn't match email pattern. Make sure you provided an email",
+  "empty-password-error-text": "Password cannot be empty, please provide the password",
+  "login-button-text": "Login",
+  "logout-button-text": "Logout",
+  "email-label": "Email:",
+  "password-label": "Password:",
+  "first-name": "First name:",
+  "last-name": "Last name:"
+}
