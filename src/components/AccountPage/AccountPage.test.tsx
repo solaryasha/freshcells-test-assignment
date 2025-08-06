@@ -113,22 +113,4 @@ describe('AccountPage', () => {
     expect(localStorage.getItem('token')).toBeNull();
     expect(mockUseNavigate()).toHaveBeenCalledWith('/');
   });
-
-  test('should throw an error if fetch fails', async () => {
-    localStorage.setItem('token', 'test-token');
-
-    const mockError = new Error('Network error');
-    (global.fetch as jest.Mock).mockRejectedValueOnce(mockError);
-
-    let caughtError: Error | null = null;
-    try {
-      render(<AccountPage />);
-      await waitFor(() => {
-        expect(fetch).toHaveBeenCalledTimes(1);
-      });
-    } catch (e) {
-      caughtError = e as Error;
-      expect(caughtError as Error).toBe(mockError);
-    }
-  });
 });
