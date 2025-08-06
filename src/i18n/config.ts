@@ -17,8 +17,7 @@ i18n
     supportedLngs: Object.keys(supportedLngs),
     interpolation: {
       escapeValue: false,
-    },
-    debug: true
+    }
   });
 
 export default i18n;

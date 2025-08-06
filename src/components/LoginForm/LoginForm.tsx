@@ -6,16 +6,11 @@ import { Alert, Button, Collapse, TextField } from '@mui/material';
 
 const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-const initialErrorState = {
-  password: {
-    status: '',
-    message: ''
-  },
-  email: {
-    status: '',
-    message: ''
-  }
-};
+// Error type
+interface LoginError {
+  field?: 'email' | 'password';
+  message: string;
+}
 
 const getErrorCode = (errors: Error[]) => {
   if (errors?.some(error => error.message === "Bad Request")) {
@@ -28,67 +23,60 @@ const getErrorCode = (errors: Error[]) => {
 export const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [error, setError] = useState(initialErrorState);
-
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<LoginError | null>(null);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [loading, setLoading] = useState(false)
+  const validate = (): LoginError | null => {
+    if (!email) return { field: 'email', message: t("empty-email-error-text") };
+    if (!emailRegExp.test(email)) return { field: 'email', message: t("email-not-matching-error-text") };
+    if (!password) return { field: 'password', message: t("empty-password-error-text") };
+    return null;
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    setLoading(true);
     event.preventDefault();
-
-    if (!email) {
-      setError(err => ({ ...err, email: { status: 'error', message: t("empty-email-error-text") } }));
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
       return;
     }
+    setLoading(true);
+    try {
+      const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          query: `
+              mutation login {
+              login(input:{
+                identifier: "${email}"
+                password: "${password}"
+              }) { 
+                jwt 
+                user { id } 
+              }
+            }`
+        })
+      });
+      const { data, errors } = await request.json();
+      if (data) {
+        localStorage.setItem('token', data.login.jwt);
+        const userId = data.login.user.id;
 
-    if (!emailRegExp.test(email)) {
-      setError(err => ({ ...err, email: { status: 'error', message: t("email-not-matching-error-text") } }));
-      return;
-    }
-
-    if (!password) {
-      setError(err => ({ ...err, password: { status: 'error', message: t("empty-password-error-text") } }));
-      return;
-    }
-
-    const request = await fetch('https://cms.trial-task.k8s.ext.fcse.io/graphql', {
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        query: `
-            mutation login {
-            login(input:{
-              identifier: "${email}"
-              password: "${password}"
-            }) { 
-              jwt 
-              user { id } 
-            }
-          }`
-      })
-    });
-
-    const { data, errors } = await request.json();
-    if (data) {
-      localStorage.setItem('token', data.login.jwt);
-      const userId = data.login.user.id;
-
-      setLoading(false);
-      navigate(userId);
-    } else {
-      const errorCode = getErrorCode(errors);
-      setError({ email: { status: 'error', message: t(errorCode) }, password: { status: 'error', message: '' } });
+        navigate(userId);
+      } else {
+        setError({ message: t(getErrorCode(errors)) });
+      }
+    } catch {
+      setError({ message: t('something-went-wrong') });
+    } finally {
       setLoading(false);
     }
   };
-
-  const hasErrors = Boolean(error.email.message || error.password.message);
 
   return (
     <form className='page' onSubmit={handleSubmit}>
@@ -100,12 +88,12 @@ export const LoginForm = () => {
           label={t('email-label')}
           onChange={(event) => {
             setEmail(event.target.value)
-            setError(err => ({ ...err, email: { status: '', message: '' } }));
+            setError(null);
           }}
           required
           size="small"
           fullWidth
-          color={error.email.status as 'error' | 'success' || 'primary'}
+          error={error?.field === 'email'}
         />
       </div>
       <div className='form-field'>
@@ -116,17 +104,17 @@ export const LoginForm = () => {
           label={t('password-label')}
           onChange={(event) => {
             setPassword(event.target.value);
-            setError(err => ({ ...err, password: { status: '', message: '' } }));
+            setError(null);
           }}
           required
           size="small"
           fullWidth
+          error={error?.field === 'password'}
         />
       </div>
-      {<Collapse in={hasErrors}>
+      {<Collapse in={!!error}>
         <Alert severity="error" className='form-field'>
-          {error.email.message}
-          {error.password.message}
+          {error?.message}
         </Alert>
       </Collapse>
       }
