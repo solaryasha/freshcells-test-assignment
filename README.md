@@ -53,7 +53,7 @@ The user interface is designed with Material UI. A minimalist aesthetic, consist
 
 ### 7. Unit Tests
 
-The codebase includes **unit tests** for critical components and functionalities. These tests ensure the reliability of the validation logic, GraphQL interactions (mocked), and component rendering, contributing to a stable and maintainable application.
+The codebase includes **unit tests** written using react-testing-library and jest  for critical components and functionalities. These tests ensure the reliability of the validation logic, GraphQL interactions (mocked), and component rendering, contributing to a stable and maintainable application.
 
 ---
 
@@ -80,5 +80,3 @@ To set up and run this project locally, follow these steps:
     npm run dev
     ```
     The application should now be running on `http://localhost:5173` (or a similar port).
-
---

@@ -20,7 +20,6 @@ jest.mock('react-i18next', () => ({
 
 
 describe('AccountPage', () => {
-
   beforeEach(() => {
     global.fetch = jest.fn();
     localStorage.clear();
